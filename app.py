@@ -19,6 +19,7 @@ jsonify = json.dumps
 | E4 | balance too low                |
 | E5 | forbidden                      |
 | E6 | permission denied              |
+| E7 | transfer exceeds $100          |
 
 * Success table
 | S1 | transfer complete |
@@ -111,6 +112,10 @@ def transfer(session):
     #validate that balance is big enough
     if from_account.balance < total_cents:
         return error("E4")
+
+    if total_cents > 10000:
+        return error("E7")
+
     #transfer money
     to_account.balance += total_cents
     from_account.balance -= total_cents
